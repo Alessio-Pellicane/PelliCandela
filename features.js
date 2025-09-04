@@ -5,9 +5,9 @@ let clients = [
 ];
 
 let produits = [
-    { id: 1, nom: 'Ordinateur Portable', description: 'PC portable 15 pouces, 8GB RAM', prix: 899.99, stock: 1 },
-    { id: 2, nom: 'Souris sans fil', description: 'Souris ergonomique Bluetooth', prix: 29.99, stock: 50 },
-    { id: 3, nom: 'Clavier mécanique', description: 'Clavier gaming RGB', prix: 129.99, stock: 0 }
+    { id: 1, nom: 'Bougie parfumée 70 ml', description: 'Petite bougie de 60g dans un contenant 70 ml', prix: 8, stock: 1 },
+    { id: 2, nom: 'Bougie parfumée 200 ml', description: 'Grande bougie de 170g dans un contenant 200 ml', prix: 20.99, stock: 50 },
+    { id: 3, nom: 'Fondants', description: 'Clavier gaming RGB', prix: 129.99, stock: 0 }
 ];
 
 let commandes = [];
