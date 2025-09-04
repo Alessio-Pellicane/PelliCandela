@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PelliCandela</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="features.js" defer></script>
+   
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ PelliCandela - Gestion des ressources</h1>
+            <div class="nav-tabs">
+                <button class="tab-button active" onclick="showSection('clients')">👥 Clients</button>
+                <button class="tab-button" onclick="showSection('produits')">📦 Produits</button>
+                <button class="tab-button" onclick="showSection('commandes')">🛒 Commandes</button>
+                <button class="tab-button" onclick="showSection('factures')">📄 Factures</button>
+            </div>
+        </div>
+
+        <!-- Section Clients -->
+        <div id="clients" class="content-section active">
+            <div class="section-header">
+                <h2 class="section-title">Gestion des Clients</h2>
+                <button class="btn" onclick="ouvrirModalClient()">➕ Nouveau Client</button>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-input form-group input" placeholder="🔍 Rechercher un client..."
+                    onkeyup="rechercherClients(this.value)">
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-list">
+                        <!-- Sera rempli par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section Produits -->
+        <div id="produits" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Gestion des Produits</h2>
+                <button class="btn" onclick="ouvrirModalProduit()">➕ Nouveau Produit</button>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-input form-group input" placeholder="🔍 Rechercher un produit..."
+                    onkeyup="rechercherProduits(this.value)">
+                <select onchange="filtrerProduitsParStock(this.value)">
+                    <option value="">Tous les stocks</option>
+                    <option value="low">Stock faible (< 10)</option>
+                    <option value="empty">Rupture de stock</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Prix</th>
+                            <th>Stock</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produits-list">
+                        <!-- Sera rempli par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section Commandes -->
+        <div id="commandes" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Gestion des Commandes</h2>
+                <button class="btn" onclick="ouvrirModalCommande()">➕ Nouvelle Commande</button>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-input form-group input" placeholder="🔍 Rechercher une commande..."
+                    onkeyup="rechercherCommandes(this.value)">
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="commandes-list">
+                        <!-- Sera rempli par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section Factures -->
+        <div id="factures" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Factures</h2>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-input form-group input" placeholder="🔍 Rechercher une facture..."
+                    onkeyup="rechercherFactures(this.value)">
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° Facture</th>
+                            <th>Client</th>
+                            <th>Date</th>
+                            <th>Montant</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="factures-list">
+                        <!-- Sera rempli par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Client -->
+    <div id="modalClient" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fermerModal('modalClient')">&times;</span>
+            <h2 id="modalClientTitle">Nouveau Client</h2>
+            <form id="clientForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="clientNom">Nom *</label>
+                        <input type="text" id="clientNom" name="nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientPrenom">Prénom *</label>
+                        <input type="text" id="clientPrenom" name="prenom" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="clientEmail">Email *</label>
+                    <input type="email" id="clientEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientTelephone">Téléphone</label>
+                    <input type="tel" id="clientTelephone" name="telephone">
+                </div>
+                <div class="form-group">
+                    <label for="clientAdresse">Adresse</label>
+                    <textarea id="clientAdresse" name="adresse" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">💾 Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Produit -->
+    <div id="modalProduit" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fermerModal('modalProduit')">&times;</span>
+            <h2 id="modalProduitTitle">Nouveau Produit</h2>
+            <form id="produitForm">
+                <div class="form-group">
+                    <label for="produitNom">Nom *</label>
+                    <input type="text" id="produitNom" name="nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="produitDescription">Description</label>
+                    <textarea id="produitDescription" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="produitPrix">Prix unitaire (€) *</label>
+                        <input type="number" id="produitPrix" name="prix" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="produitStock">Stock</label>
+                        <input type="number" id="produitStock" name="stock" min="0" value="0">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">💾 Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Commande -->
+    <div id="modalCommande" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <span class="close" onclick="fermerModal('modalCommande')">&times;</span>
+            <h2 id="modalCommandeTitle">Nouvelle Commande</h2>
+            <form id="commandeForm">
+                <div class="form-group">
+                    <label for="commandeClient">Client *</label>
+                    <select id="commandeClient" name="client" required>
+                        <option value="">Sélectionnez un client</option>
+                    </select>
+                </div>
+
+                <div class="produit-selector">
+                    <h3>➕ Ajouter des produits</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="selectProduit">Produit</label>
+                            <select id="selectProduit">
+                                <option value="">Sélectionnez un produit</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantiteProduit">Quantité</label>
+                            <input type="number" id="quantiteProduit" min="1" value="1">
+                        </div>
+                    </div>
+                    <button type="button" class="btn" onclick="ajouterProduitCommande()">➕ Ajouter à la
+                        commande</button>
+                </div>
+
+                <div class="produits-commande">
+                    <h3>📋 Produits de la commande</h3>
+                    <div id="produitsCommandeList">
+                        <p style="text-align: center; color: #666;">Aucun produit ajouté</p>
+                    </div>
+                </div>
+
+                <div class="total-commande">
+                    Total: <span id="totalCommande">0.00€</span>
+                </div>
+
+                <button type="submit" class="btn btn-success">🛒 Valider la Commande</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Facture -->
+    <div id="modalFacture" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <span class="close" onclick="fermerModal('modalFacture')">&times;</span>
+            <div id="factureContent" class="facture">
+                <!-- Le contenu de la facture sera généré ici -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-success" onclick="telechargerFacture()">📥 Télécharger PDF</button>
+            </div>
+        </div>
+    </div>
+
+    
